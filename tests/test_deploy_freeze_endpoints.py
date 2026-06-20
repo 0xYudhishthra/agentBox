@@ -1,6 +1,3 @@
-import os
-
-
 def _conn(client, **over):
     base = dict(name="m", ip_address="10.0.0.9", user="root", ssh_key_path="/k",
                 provider="local", privileged=True, provider_instance_id="rp-1",
@@ -69,3 +66,24 @@ def test_deploy_unknown_connection_404(client):
     ws = _ws(client)
     r = client.post(f"/api/v1/workspaces/{ws['id']}/deploy", json={"connection_id": "nope"})
     assert r.status_code == 404
+
+
+def test_deploy_already_running_workspace_409(client):
+    conn1 = _conn(client)
+    conn2 = _conn(client)
+    ws = _ws(client)
+    r = client.post(f"/api/v1/workspaces/{ws['id']}/deploy", json={"connection_id": conn1["id"]})
+    assert r.status_code == 200
+    # second deploy of an already-running workspace is rejected
+    r = client.post(f"/api/v1/workspaces/{ws['id']}/deploy", json={"connection_id": conn2["id"]})
+    assert r.status_code == 409
+
+
+def test_delete_in_use_connection_409(client):
+    conn = _conn(client)
+    ws = _ws(client)
+    r = client.post(f"/api/v1/workspaces/{ws['id']}/deploy", json={"connection_id": conn["id"]})
+    assert r.status_code == 200
+    # connection is now in_use; deleting it would strand the running workspace
+    r = client.delete(f"/api/v1/connections/{conn['id']}")
+    assert r.status_code == 409
