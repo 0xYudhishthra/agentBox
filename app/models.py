@@ -42,7 +42,9 @@ class Connection(SQLModel, table=True):
     provider: Provider = Provider.local
     provider_instance_id: str | None = None
     privileged: bool = False
-    capabilities: list[str] = Field(default_factory=list, sa_column=Column(JSON))
+    capabilities: list[str] = Field(
+        default_factory=list, sa_column=Column(JSON, nullable=False)
+    )
     status: ConnStatus = ConnStatus.idle
     last_connected: datetime | None = None
 
