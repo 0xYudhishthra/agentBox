@@ -1,0 +1,47 @@
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #0d0d0f;
+  color: #e6e6e6;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "tnum";
+}
+
+::selection {
+  background: rgba(181, 168, 255, 0.28);
+  color: #fff;
+}
+
+@keyframes bh-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes bh-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.bh-rail {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: #86868e;
+  text-transform: uppercase;
+}

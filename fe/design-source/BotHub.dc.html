@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#0D0D0F;color:#E6E6E6;font-family:'JetBrains Mono',ui-monospace,monospace;-webkit-font-smoothing:antialiased;font-feature-settings:"tnum";}
+  ::selection{background:rgba(181,168,255,0.28);color:#fff;}
+  @keyframes bh-pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+  @keyframes bh-spin{to{transform:rotate(360deg);}}
+  .bh-rail{writing-mode:vertical-rl;text-orientation:mixed;font-size:11px;letter-spacing:4px;color:#86868E;text-transform:uppercase;}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#0D0D0F;overflow-x:hidden;">
+
+  <!-- NAV -->
+  <div style="position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);background:rgba(13,13,15,0.82);border-bottom:1px solid #2A2A30;">
+    <div style="max-width:1180px;margin:0 auto;padding:0 32px;height:58px;display:flex;align-items:center;justify-content:space-between;">
+      <a href="#top" style="display:inline-flex;align-items:center;font-weight:800;font-size:19px;letter-spacing:-1px;text-decoration:none;">
+        <span style="color:#FFFFFF;">Bot</span>
+        <span style="background:#B5A8FF;color:#0D0D0F;padding:1px 7px 2px;border-radius:4px;margin-left:2px;">Hub</span>
+      </a>
+      <div style="display:flex;align-items:center;gap:26px;font-size:13px;color:#86868E;">
+        <a href="#problem" style="color:#86868E;text-decoration:none;" style-hover="color:#E6E6E6;">why</a>
+        <a href="#try" style="color:#86868E;text-decoration:none;" style-hover="color:#E6E6E6;">try</a>
+        <a href="#pricing" style="color:#86868E;text-decoration:none;" style-hover="color:#E6E6E6;">pricing</a>
+        <a href="#" style="color:#86868E;text-decoration:none;display:flex;gap:6px;align-items:center;" style-hover="color:#E6E6E6;"><span>★</span>9.4k</a>
+        <a href="#try" style="text-decoration:none;color:#0D0D0F;background:#B5A8FF;font-weight:700;padding:7px 15px;font-size:13px;" style-hover="background:#8B7FD9;">try it</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div id="top" style="max-width:1180px;margin:0 auto;padding:76px 32px 0;">
+    <div style="display:flex;align-items:center;gap:14px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#56565E;margin-bottom:30px;">
+      <span style="width:8px;height:8px;background:#B5A8FF;animation:bh-pulse 1.8s ease-in-out infinite;"></span>
+      00 — runtime
+      <span style="flex:1;height:1px;background:#2A2A30;"></span>
+    </div>
+    <h1 style="font-size:clamp(38px,5.4vw,66px);line-height:1.05;letter-spacing:-2.4px;font-weight:800;margin:0;color:#FFFFFF;">
+      Pause the agent.<br>Kill the GPU.<br><span style="color:#B5A8FF;">Resume next week.</span>
+    </h1>
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:30px;flex-wrap:wrap;margin-top:34px;">
+      <p style="font-size:15px;line-height:1.5;color:#B8B8C0;margin:0;">
+        Ephemeral in billing.<br><span style="color:#FFFFFF;">Stateful in execution.</span>
+      </p>
+      <div style="display:flex;align-items:stretch;gap:12px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;background:#08080A;border:1px solid #2A2A30;font-size:13.5px;">
+          <span style="padding:12px 15px;color:#E6E6E6;white-space:nowrap;"><span style="color:#56565E;">$ </span>curl -fsSL bothub.dev/install | sh</span>
+          <button onClick="{{ copyInstall }}" style="border:0;border-left:1px solid #2A2A30;background:transparent;color:{{ copyColor }};font-family:inherit;font-size:12px;padding:0 14px;align-self:stretch;cursor:pointer;" style-hover="color:#B5A8FF;">{{ copyLabel }}</button>
+        </div>
+        <a href="#try" style="display:flex;align-items:center;white-space:nowrap;text-decoration:none;color:#0D0D0F;background:#B5A8FF;font-weight:700;padding:0 22px;font-size:13.5px;" style-hover="background:#8B7FD9;">try the console →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE: live session lifecycle band -->
+  <div style="max-width:1180px;margin:52px auto 0;padding:0 32px;">
+    <div style="border:1px solid #2A2A30;background:#0A0A0C;">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 20px;border-bottom:1px solid #2A2A30;">
+        <div style="display:flex;align-items:center;gap:10px;font-size:12px;color:#86868E;">
+          <span style="width:7px;height:7px;background:{{ demo.liveDot }};{{ demo.liveAnim }}"></span>
+          sess_8f3a · <span style="color:#56565E;">brain:claude</span>
+        </div>
+        <div style="font-size:12px;color:{{ demo.phaseColor }};font-weight:700;letter-spacing:0.4px;">{{ demo.phaseLabel }}</div>
+      </div>
+      <div style="padding:34px 30px 28px;">
+        <div style="position:relative;display:flex;justify-content:space-between;align-items:center;">
+          <div style="position:absolute;left:6%;right:6%;top:6px;height:1px;background:#2A2A30;"></div>
+          <sc-for list="{{ demo.nodes }}" as="n" hint-placeholder-count="4">
+            <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:12px;flex:1;">
+              <span style="width:13px;height:13px;border:1.5px solid {{ n.ring }};background:{{ n.fill }};{{ n.anim }}"></span>
+              <span style="font-size:11px;letter-spacing:0.4px;color:{{ n.text }};white-space:nowrap;">{{ n.label }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="margin:26px 0 5px;height:2px;background:#1A1A1E;">
+          <div style="height:100%;width:{{ demo.barPct }}%;background:{{ demo.barColor }};transition:width .1s linear;"></div>
+        </div>
+        <div style="font-size:12px;color:#86868E;min-height:16px;">{{ demo.status }}</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid #2A2A30;">
+        <div style="padding:16px 20px;border-right:1px solid #2A2A30;">
+          <div style="font-size:10.5px;color:#56565E;letter-spacing:0.4px;margin-bottom:8px;">GPU TEMP</div>
+          <div style="font-size:19px;font-weight:700;color:{{ demo.tempColor }};">{{ demo.tempLabel }}</div>
+        </div>
+        <div style="padding:16px 20px;border-right:1px solid #2A2A30;">
+          <div style="font-size:10.5px;color:#56565E;letter-spacing:0.4px;margin-bottom:8px;">VRAM</div>
+          <div style="font-size:19px;font-weight:700;color:{{ demo.vramColor }};">{{ demo.vramLabel }}</div>
+        </div>
+        <div style="padding:16px 20px;border-right:1px solid #2A2A30;">
+          <div style="font-size:10.5px;color:#56565E;letter-spacing:0.4px;margin-bottom:8px;">BILLING</div>
+          <div style="font-size:19px;font-weight:700;color:{{ demo.rateColor }};">{{ demo.rateLabel }}</div>
+        </div>
+        <div style="padding:16px 20px;border-right:1px solid #2A2A30;">
+          <div style="font-size:10.5px;color:#56565E;letter-spacing:0.4px;margin-bottom:8px;">ACCRUED</div>
+          <div style="font-size:19px;font-weight:700;color:#FFFFFF;">{{ demo.costLabel }}</div>
+        </div>
+        <div style="padding:16px 20px;">
+          <div style="font-size:10.5px;color:#56565E;letter-spacing:0.4px;margin-bottom:8px;">STEP</div>
+          <div style="font-size:19px;font-weight:700;color:{{ demo.stepColor }};">{{ demo.stepLabel }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROBLEM -->
+  <div id="problem" style="max-width:1180px;margin:0 auto;padding:104px 32px 0;">
+    <div style="display:grid;grid-template-columns:84px 1fr;">
+      <div style="display:flex;flex-direction:column;gap:16px;padding-top:4px;">
+        <span style="font-size:12px;color:#56565E;">01</span>
+        <span class="bh-rail">problem</span>
+      </div>
+      <div style="border-left:1px solid #2A2A30;padding-left:40px;">
+        <h2 style="font-size:clamp(26px,3.4vw,40px);font-weight:800;letter-spacing:-1.4px;margin:0 0 36px;color:#FFFFFF;">The cold-start tax.</h2>
+        <sc-for list="{{ problems }}" as="p" hint-placeholder-count="3">
+          <div style="display:grid;grid-template-columns:30px 1fr;gap:18px;align-items:baseline;padding:20px 0;border-top:1px solid #202026;">
+            <span style="font-size:12px;color:#3A3A42;">{{ p.n }}</span>
+            <div style="font-size:clamp(16px,2vw,20px);line-height:1.4;color:#909098;">
+              <span style="color:#E6E6E6;font-weight:700;">{{ p.label }}</span> — {{ p.line }}
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOLUTION -->
+  <div style="max-width:1180px;margin:0 auto;padding:96px 32px 0;">
+    <div style="display:grid;grid-template-columns:84px 1fr;">
+      <div style="display:flex;flex-direction:column;gap:16px;padding-top:4px;">
+        <span style="font-size:12px;color:#B5A8FF;">02</span>
+        <span class="bh-rail" style="color:#B5A8FF;">bothub</span>
+      </div>
+      <div style="border-left:1px solid #2A2A30;padding-left:40px;">
+        <h2 style="font-size:clamp(26px,3.4vw,40px);font-weight:800;letter-spacing:-1.4px;margin:0 0 36px;color:#FFFFFF;">Freeze it. Move it.<br>Bring any brain.</h2>
+        <sc-for list="{{ solutions }}" as="s" hint-placeholder-count="3">
+          <div style="display:grid;grid-template-columns:30px 1fr;gap:18px;align-items:baseline;padding:20px 0;border-top:1px solid #202026;">
+            <span style="font-size:12px;color:{{ s.numColor }};">{{ s.n }}</span>
+            <div style="font-size:clamp(16px,2vw,20px);line-height:1.4;color:#B8B8C0;">
+              <span style="color:{{ s.labelColor }};font-weight:700;">{{ s.label }}</span> — {{ s.line }}
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TRY / DOCKER-DESKTOP-STYLE APP ============ -->
+  <div id="try" style="border-top:1px solid #2A2A30;background:#0A0A0C;margin-top:104px;">
+    <div style="max-width:1180px;margin:0 auto;padding:60px 32px 76px;">
+      <div style="display:grid;grid-template-columns:84px 1fr;">
+        <div style="display:flex;flex-direction:column;gap:16px;padding-top:4px;">
+          <span style="font-size:12px;color:#56565E;">03</span>
+          <span class="bh-rail">try</span>
+        </div>
+        <div style="border-left:1px solid #2A2A30;padding-left:40px;">
+          <h2 style="font-size:clamp(26px,3.4vw,40px);font-weight:800;letter-spacing:-1.4px;margin:0 0 28px;color:#FFFFFF;">BotHub Desktop.</h2>
+
+          <!-- APP WINDOW -->
+          <div style="border:1px solid #2A2A30;background:#0D0D0F;box-shadow:0 40px 90px -36px #000;">
+            <!-- title bar -->
+            <div style="display:flex;align-items:center;padding:11px 16px;border-bottom:1px solid #2A2A30;background:#0A0A0C;">
+              <div style="display:flex;gap:8px;">
+                <span style="width:11px;height:11px;border-radius:50%;background:#2A2A30;"></span>
+                <span style="width:11px;height:11px;border-radius:50%;background:#2A2A30;"></span>
+                <span style="width:11px;height:11px;border-radius:50%;background:#2A2A30;"></span>
+              </div>
+              <div style="flex:1;text-align:center;font-size:12px;color:#86868E;">BotHub — runtime</div>
+              <div style="width:33px;"></div>
+            </div>
+
+            <div style="display:flex;min-height:540px;">
+              <!-- SIDEBAR -->
+              <div style="width:208px;flex:none;border-right:1px solid #2A2A30;background:#0A0A0C;display:flex;flex-direction:column;">
+                <div style="padding:14px 14px 10px;">
+                  <div style="display:flex;align-items:center;gap:8px;background:#0D0D0F;border:1px solid #2A2A30;padding:7px 10px;font-size:12px;color:#56565E;">
+                    <span>⌕</span><span>Search…</span>
+                  </div>
+                </div>
+                <div style="padding:6px 8px;display:flex;flex-direction:column;gap:2px;">
+                  <sc-for list="{{ nav }}" as="i" hint-placeholder-count="4">
+                    <button onClick="{{ i.onClick }}" style="{{ i.style }}" style-hover="{{ i.hover }}">
+                      <span style="display:flex;align-items:center;gap:11px;">
+                        <span style="font-size:12px;color:{{ i.iconColor }};width:14px;text-align:center;">{{ i.icon }}</span>
+                        <span>{{ i.label }}</span>
+                      </span>
+                      <span style="font-size:11px;color:{{ i.countColor }};">{{ i.count }}</span>
+                    </button>
+                  </sc-for>
+                </div>
+                <div style="margin-top:auto;padding:14px;border-top:1px solid #2A2A30;">
+                  <div style="display:flex;align-items:center;gap:9px;font-size:11.5px;color:#B8B8C0;">
+                    <span style="width:7px;height:7px;border-radius:50%;background:#B5A8FF;animation:bh-pulse 2s ease-in-out infinite;"></span>
+                    runtime · running
+                  </div>
+                  <div style="font-size:10.5px;color:#3A3A42;margin-top:6px;padding-left:16px;">v0.9.2 · gVisor</div>
+                </div>
+              </div>
+
+              <!-- MAIN -->
+              <div style="flex:1;min-width:0;display:flex;flex-direction:column;">
+                <!-- toolbar -->
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 20px;border-bottom:1px solid #2A2A30;">
+                  <div style="display:flex;align-items:baseline;gap:11px;">
+                    <span style="font-size:17px;font-weight:700;color:#FFFFFF;letter-spacing:-0.4px;">{{ view.title }}</span>
+                    <span style="font-size:12px;color:#56565E;">{{ view.subtitle }}</span>
+                  </div>
+                  <sc-if value="{{ view.isSessions }}" hint-placeholder-val="{{ true }}">
+                    <button style="font-family:inherit;font-size:12px;font-weight:700;padding:8px 15px;border:1px solid #B5A8FF;background:#B5A8FF;color:#0D0D0F;cursor:pointer;" style-hover="background:#8B7FD9;border-color:#8B7FD9;">+ Run session</button>
+                  </sc-if>
+                </div>
+
+                <!-- SESSIONS VIEW -->
+                <sc-if value="{{ view.isSessions }}" hint-placeholder-val="{{ true }}">
+                  <div>
+                    <div style="display:grid;grid-template-columns:22px 1.5fr 124px 1.2fr 1.3fr 96px 104px;padding:11px 20px;border-bottom:1px solid #2A2A30;font-size:10px;color:#56565E;letter-spacing:0.5px;">
+                      <div></div><div>NAME</div><div>STATE</div><div>GPU</div><div>MODEL · VRAM</div><div style="text-align:right;">COST</div><div></div>
+                    </div>
+                    <sc-for list="{{ rows }}" as="s" hint-placeholder-count="6">
+                      <div style="border-bottom:1px solid #202026;padding:13px 20px;" style-hover="background:#101012;">
+                        <div style="display:grid;grid-template-columns:22px 1.5fr 124px 1.2fr 1.3fr 96px 104px;align-items:center;">
+                          <div><span style="display:inline-block;width:12px;height:12px;border:1px solid #2A2A30;"></span></div>
+                          <div style="min-width:0;">
+                            <div style="font-size:13px;color:#E6E6E6;font-weight:500;">{{ s.id }}</div>
+                            <div style="font-size:11px;color:#56565E;margin-top:2px;">{{ s.name }} · {{ s.provider }}</div>
+                          </div>
+                          <div>
+                            <span style="display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:700;letter-spacing:0.3px;padding:3px 8px;color:{{ s.stateColor }};background:{{ s.stateBg }};border:1px solid {{ s.stateBorder }};">
+                              <span style="width:5px;height:5px;border-radius:50%;background:{{ s.dotColor }};{{ s.dotAnim }}"></span>{{ s.stateLabel }}
+                            </span>
+                          </div>
+                          <div style="font-size:12.5px;">
+                            <div style="color:{{ s.gpuColor }};font-weight:500;">{{ s.gpuLabel }}</div>
+                            <div style="font-size:10.5px;color:#56565E;margin-top:2px;">{{ s.gpuSub }}</div>
+                          </div>
+                          <div style="padding-right:16px;">
+                            <div style="font-size:12px;color:#B8B8C0;">{{ s.model }}</div>
+                            <div style="margin-top:5px;height:4px;background:#1A1A1E;overflow:hidden;">
+                              <div style="height:100%;width:{{ s.vramPct }}%;background:{{ s.vramColor }};transition:width .4s;"></div>
+                            </div>
+                            <div style="font-size:10px;color:#56565E;margin-top:3px;">{{ s.vramLabel }}</div>
+                          </div>
+                          <div style="text-align:right;">
+                            <div style="font-size:13px;color:#FFFFFF;font-weight:700;">{{ s.costLabel }}</div>
+                            <div style="font-size:10px;color:{{ s.costSubColor }};margin-top:2px;">{{ s.costSub }}</div>
+                          </div>
+                          <div style="text-align:right;">
+                            <button onClick="{{ s.onAction }}" disabled="{{ s.btnDisabled }}" style="{{ s.btnStyle }}" style-hover="{{ s.btnHover }}">{{ s.btnLabel }}</button>
+                          </div>
+                        </div>
+                        <sc-if value="{{ s.showBar }}" hint-placeholder-val="{{ false }}">
+                          <div style="margin-top:11px;display:flex;align-items:center;gap:12px;">
+                            <span style="font-size:10.5px;color:#B5A8FF;white-space:nowrap;display:flex;align-items:center;gap:7px;">
+                              <span style="display:inline-block;width:10px;height:10px;border:1.5px solid #B5A8FF;border-top-color:transparent;border-radius:50%;animation:bh-spin .7s linear infinite;"></span>{{ s.barLabel }}
+                            </span>
+                            <div style="flex:1;height:5px;background:#1A1A1E;overflow:hidden;">
+                              <div style="height:100%;width:{{ s.barPct }}%;background:linear-gradient(90deg,#8B7FD9,#B5A8FF);transition:width .15s linear;"></div>
+                            </div>
+                            <span style="font-size:10.5px;color:#86868E;white-space:nowrap;">{{ s.barDetail }}</span>
+                          </div>
+                        </sc-if>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+
+                <!-- CHECKPOINTS VIEW -->
+                <sc-if value="{{ view.isCheckpoints }}" hint-placeholder-val="{{ false }}">
+                  <div>
+                    <div style="display:grid;grid-template-columns:22px 1.7fr 1.4fr 1fr 110px;padding:11px 20px;border-bottom:1px solid #2A2A30;font-size:10px;color:#56565E;letter-spacing:0.5px;">
+                      <div></div><div>CHECKPOINT</div><div>ORIGIN</div><div>SAVED</div><div></div>
+                    </div>
+                    <sc-for list="{{ checkpoints }}" as="c" hint-placeholder-count="4">
+                      <div style="border-bottom:1px solid #202026;padding:14px 20px;" style-hover="background:#101012;">
+                        <div style="display:grid;grid-template-columns:22px 1.7fr 1.4fr 1fr 110px;align-items:center;">
+                          <div><span style="color:{{ c.markColor }};font-size:11px;">◆</span></div>
+                          <div style="min-width:0;">
+                            <div style="font-size:13px;color:#E6E6E6;font-weight:500;">{{ c.id }}</div>
+                            <div style="font-size:11px;color:#56565E;margin-top:2px;">{{ c.sub }}</div>
+                          </div>
+                          <div style="font-size:12px;color:#B8B8C0;">{{ c.origin }}</div>
+                          <div style="font-size:12px;color:{{ c.ageColor }};">{{ c.age }}</div>
+                          <div style="text-align:right;">
+                            <button onClick="{{ c.onAction }}" disabled="{{ c.disabled }}" style="{{ c.btnStyle }}" style-hover="{{ c.btnHover }}">{{ c.btnLabel }}</button>
+                          </div>
+                        </div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+
+                <!-- GPUS VIEW -->
+                <sc-if value="{{ view.isGpus }}" hint-placeholder-val="{{ false }}">
+                  <div>
+                    <div style="display:grid;grid-template-columns:1.3fr 1.5fr 110px 90px 92px 1fr;padding:11px 20px;border-bottom:1px solid #2A2A30;font-size:10px;color:#56565E;letter-spacing:0.5px;">
+                      <div>GPU</div><div>PROVIDER · REGION</div><div>STATUS</div><div>TEMP</div><div style="text-align:right;">$/HR</div><div style="text-align:right;">SESSION</div>
+                    </div>
+                    <sc-for list="{{ gpus }}" as="g" hint-placeholder-count="6">
+                      <div style="border-bottom:1px solid #202026;padding:14px 20px;" style-hover="background:#101012;">
+                        <div style="display:grid;grid-template-columns:1.3fr 1.5fr 110px 90px 92px 1fr;align-items:center;">
+                          <div style="font-size:13px;color:{{ g.gpuColor }};font-weight:500;">{{ g.gpu }}</div>
+                          <div style="font-size:12px;color:#B8B8C0;">{{ g.host }}</div>
+                          <div>
+                            <span style="font-size:10.5px;font-weight:700;letter-spacing:0.3px;color:{{ g.statusColor }};">{{ g.status }}</span>
+                          </div>
+                          <div style="font-size:12.5px;color:{{ g.tempColor }};">{{ g.temp }}</div>
+                          <div style="font-size:12.5px;color:#B8B8C0;text-align:right;">{{ g.rate }}</div>
+                          <div style="font-size:12px;color:#86868E;text-align:right;">{{ g.session }}</div>
+                        </div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+
+                <!-- PROVIDERS VIEW -->
+                <sc-if value="{{ view.isProviders }}" hint-placeholder-val="{{ false }}">
+                  <div>
+                    <div style="display:grid;grid-template-columns:1.3fr 1.7fr 100px 100px 120px;padding:11px 20px;border-bottom:1px solid #2A2A30;font-size:10px;color:#56565E;letter-spacing:0.5px;">
+                      <div>PROVIDER</div><div>REGIONS</div><div style="text-align:right;">SPOT</div><div style="text-align:right;">ACTIVE</div><div style="text-align:right;">STATUS</div>
+                    </div>
+                    <sc-for list="{{ providers }}" as="p" hint-placeholder-count="3">
+                      <div style="border-bottom:1px solid #202026;padding:16px 20px;" style-hover="background:#101012;">
+                        <div style="display:grid;grid-template-columns:1.3fr 1.7fr 100px 100px 120px;align-items:center;">
+                          <div style="font-size:13px;color:#E6E6E6;font-weight:600;">{{ p.name }}</div>
+                          <div style="font-size:12px;color:#86868E;">{{ p.regions }}</div>
+                          <div style="font-size:12.5px;color:#B8B8C0;text-align:right;">{{ p.rate }}</div>
+                          <div style="font-size:12.5px;color:#B5A8FF;font-weight:700;text-align:right;">{{ p.active }}</div>
+                          <div style="text-align:right;font-size:10.5px;color:#86868E;letter-spacing:0.3px;">{{ p.status }}</div>
+                        </div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+            </div>
+
+            <!-- status bar -->
+            <div style="display:flex;align-items:center;gap:20px;padding:8px 18px;border-top:1px solid #2A2A30;background:#0A0A0C;font-size:11px;color:#86868E;flex-wrap:wrap;">
+              <span style="display:flex;align-items:center;gap:7px;color:#B5A8FF;"><span style="width:6px;height:6px;border-radius:50%;background:#B5A8FF;"></span>Engine running</span>
+              <span>CPU {{ stat.cpu }}</span>
+              <span>MEM {{ stat.mem }}</span>
+              <span style="color:#B8B8C0;">GPU <span style="color:#B5A8FF;">{{ stat.hot }} hot</span> · {{ stat.cold }} cold</span>
+              <span style="margin-left:auto;color:#3A3A42;">v0.9.2</span>
+            </div>
+          </div>
+          <div style="font-size:12px;color:#56565E;margin-top:14px;">click <span style="color:#B5A8FF;">pause</span> to checkpoint &amp; release the GPU — or switch tabs in the sidebar.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRICING -->
+  <div id="pricing" style="max-width:1180px;margin:0 auto;padding:104px 32px 0;">
+    <div style="display:grid;grid-template-columns:84px 1fr;">
+      <div style="display:flex;flex-direction:column;gap:16px;padding-top:4px;">
+        <span style="font-size:12px;color:#56565E;">04</span>
+        <span class="bh-rail">pricing</span>
+      </div>
+      <div style="border-left:1px solid #2A2A30;padding-left:40px;">
+        <h2 style="font-size:clamp(26px,3.4vw,40px);font-weight:800;letter-spacing:-1.4px;margin:0 0 36px;color:#FFFFFF;">Free to run.</h2>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start;">
+          <sc-for list="{{ tiers }}" as="t" hint-placeholder-count="3">
+            <div style="border:1px solid {{ t.border }};background:{{ t.cardBg }};padding:26px 24px;position:relative;">
+              <sc-if value="{{ t.recommended }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute;top:-1px;right:-1px;background:#B5A8FF;color:#0D0D0F;font-size:10px;font-weight:700;letter-spacing:0.5px;padding:4px 10px;">RECOMMENDED</div>
+              </sc-if>
+              <div style="font-size:13px;color:{{ t.nameColor }};font-weight:700;letter-spacing:0.3px;margin-bottom:18px;">{{ t.name }}</div>
+              <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:22px;">
+                <span style="font-size:34px;font-weight:800;letter-spacing:-1.5px;color:#FFFFFF;">{{ t.price }}</span>
+                <span style="font-size:13px;color:#56565E;">{{ t.unit }}</span>
+              </div>
+              <button style="{{ t.btnStyle }}" style-hover="{{ t.btnHover }}">{{ t.cta }}</button>
+              <div style="margin-top:22px;display:flex;flex-direction:column;gap:11px;">
+                <sc-for list="{{ t.features }}" as="f" hint-placeholder-count="4">
+                  <div style="display:flex;align-items:flex-start;gap:10px;font-size:12.5px;line-height:1.45;color:#B8B8C0;">
+                    <span style="color:{{ f.markColor }};flex:none;">{{ f.mark }}</span><span>{{ f.text }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEAM -->
+  <div style="max-width:1180px;margin:0 auto;padding:104px 32px 0;">
+    <div style="display:grid;grid-template-columns:84px 1fr;">
+      <div style="display:flex;flex-direction:column;gap:16px;padding-top:4px;">
+        <span style="font-size:12px;color:#56565E;">05</span>
+        <span class="bh-rail">team</span>
+      </div>
+      <div style="border-left:1px solid #2A2A30;padding-left:40px;">
+        <h2 style="font-size:clamp(26px,3.4vw,40px);font-weight:800;letter-spacing:-1.4px;margin:0 0 36px;color:#FFFFFF;">Tired of cold starts.</h2>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+          <div style="border:1px solid #2A2A30;background:#0A0A0C;padding:22px;">
+            <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;">
+              <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="founder-1" shape="rect" radius="2" placeholder="photo" hint-size="100%,100%" style="width:54px;height:54px;display:block;flex:none;border:1px solid #2A2A30;"></x-import>
+              <div>
+                <div style="font-size:14px;font-weight:700;color:#FFFFFF;">Founder One</div>
+                <div style="font-size:11.5px;color:#B5A8FF;margin-top:3px;">runtime</div>
+              </div>
+            </div>
+            <div style="font-size:12.5px;line-height:1.55;color:#909098;">CRIU ↔ cuda-checkpoint. Freezes live VRAM.</div>
+          </div>
+          <div style="border:1px solid #2A2A30;background:#0A0A0C;padding:22px;">
+            <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;">
+              <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="founder-2" shape="rect" radius="2" placeholder="photo" hint-size="100%,100%" style="width:54px;height:54px;display:block;flex:none;border:1px solid #2A2A30;"></x-import>
+              <div>
+                <div style="font-size:14px;font-weight:700;color:#FFFFFF;">Founder Two</div>
+                <div style="font-size:11.5px;color:#86868E;margin-top:3px;">infra</div>
+              </div>
+            </div>
+            <div style="font-size:12.5px;line-height:1.55;color:#909098;">Spot orchestration. $4/hr → $0.50.</div>
+          </div>
+          <div style="border:1px solid #2A2A30;background:#0A0A0C;padding:22px;">
+            <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;">
+              <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="founder-3" shape="rect" radius="2" placeholder="photo" hint-size="100%,100%" style="width:54px;height:54px;display:block;flex:none;border:1px solid #2A2A30;"></x-import>
+              <div>
+                <div style="font-size:14px;font-weight:700;color:#FFFFFF;">Founder Three</div>
+                <div style="font-size:11.5px;color:#86868E;margin-top:3px;">dx</div>
+              </div>
+            </div>
+            <div style="font-size:12.5px;line-height:1.55;color:#909098;">CLI, MCP, the open spec.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="border-top:1px solid #2A2A30;margin-top:104px;">
+    <div style="max-width:1180px;margin:0 auto;padding:44px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;">
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <span style="display:inline-flex;align-items:center;font-weight:800;font-size:22px;letter-spacing:-1.2px;">
+          <span style="color:#FFFFFF;">Bot</span>
+          <span style="background:#B5A8FF;color:#0D0D0F;padding:1px 8px 2px;border-radius:5px;margin-left:2px;">Hub</span>
+        </span>
+        <span style="font-size:11.5px;color:#3A3A42;">© 2026 · open-source · MIT · the sandbox is yours</span>
+      </div>
+      <div style="display:flex;gap:24px;font-size:12.5px;color:#86868E;flex-wrap:wrap;">
+        <a href="#" style="color:#86868E;text-decoration:none;" style-hover="color:#B5A8FF;">Docs</a>
+        <a href="#" style="color:#86868E;text-decoration:none;" style-hover="color:#B5A8FF;">GitHub</a>
+        <a href="#" style="color:#86868E;text-decoration:none;" style-hover="color:#B5A8FF;">CLI</a>
+        <a href="#" style="color:#86868E;text-decoration:none;" style-hover="color:#B5A8FF;">X</a>
+        <a href="#" style="color:#86868E;text-decoration:none;" style-hover="color:#B5A8FF;">Discord</a>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    copied: false,
+    tab: 'sessions',
+    demoPhase: 'RUNNING',
+    demoT: 0,
+    demoCost: 3.2148,
+    sessions: [
+      { id:'sess_8f3a', name:'refactor-monolith', brain:'claude', model:'llama-3.3-70b', sizeGB:50,
+        st:'RUNNING', gpu:'H100 80GB', vramUsed:50, provider:'Vast.ai', region:'us-east-1', rate:0.54, cost:3.2148, temp:71, cp:0, cpAge:0 },
+      { id:'sess_2c91', name:'eval-sweep', brain:'llama', model:'qwen2.5-32b', sizeGB:22,
+        st:'RUNNING', gpu:'A100 40GB', vramUsed:22, provider:'RunPod', region:'eu-west-4', rate:0.39, cost:1.0772, temp:64, cp:0, cpAge:0 },
+      { id:'sess_d70b', name:'doc-indexer', brain:'script', model:'mixtral-8x7b', sizeGB:48,
+        st:'CHECKPOINTED', gpu:'H100 80GB', vramUsed:48, provider:'Hyperbolic', region:'us-west-2', rate:0.0, cost:12.8840, temp:0, cp:48, cpAge:128 },
+      { id:'sess_4e12', name:'web-scraper', brain:'claude', model:'llama-3.1-8b', sizeGB:7,
+        st:'PAUSED', gpu:'A100 40GB', vramUsed:0, provider:'RunPod', region:'us-east-1', rate:0.12, cost:0.4410, temp:41, cp:0, cpAge:0 },
+      { id:'sess_a55f', name:'fine-tune-runner', brain:'script', model:'llama-3.3-70b', sizeGB:64,
+        st:'RUNNING', gpu:'H100 80GB', vramUsed:64, provider:'Hyperbolic', region:'ap-south-1', rate:0.61, cost:7.9305, temp:76, cp:0, cpAge:0 },
+      { id:'sess_91c4', name:'nightly-bench', brain:'llama', model:'gemma-2-27b', sizeGB:19,
+        st:'CHECKPOINTED', gpu:'A100 40GB', vramUsed:19, provider:'Vast.ai', region:'eu-west-4', rate:0.0, cost:5.6012, temp:0, cp:19, cpAge:42 },
+    ],
+  };
+
+  C = { lav:'#B5A8FF', lav2:'#8B7FD9', lavBg:'rgba(181,168,255,0.08)', lavBorder:'rgba(181,168,255,0.24)',
+        gray:'#86868E', dim:'#56565E', text:'#E6E6E6', surf:'rgba(255,255,255,0.03)', border:'#2A2A30' };
+
+  durs = { RUNNING:2800, CHECKPOINTING:2400, COLD:3000, RESUMING:1900 };
+  order = ['RUNNING','CHECKPOINTING','COLD','RESUMING'];
+
+  componentDidMount() {
+    this._last = performance.now();
+    this._demo = setInterval(() => this.tickDemo(), 60);
+    this._bill = setInterval(() => this.tickBilling(), 1000);
+    this._timers = {};
+  }
+  componentWillUnmount() {
+    clearInterval(this._demo); clearInterval(this._bill);
+    Object.values(this._timers || {}).forEach(clearInterval);
+  }
+
+  tickDemo() {
+    const now = performance.now();
+    const dt = now - this._last; this._last = now;
+    let { demoPhase, demoT, demoCost } = this.state;
+    const dur = this.durs[demoPhase];
+    demoT += dt / dur;
+    if (demoPhase !== 'COLD') demoCost += 0.54 * (dt / 3600000) * 90;
+    if (demoT >= 1) {
+      demoT = 0;
+      demoPhase = this.order[(this.order.indexOf(demoPhase) + 1) % 4];
+    }
+    this.setState({ demoPhase, demoT, demoCost });
+  }
+
+  tickBilling() {
+    this.setState(s => ({
+      sessions: s.sessions.map(x => x.st === 'RUNNING' ? { ...x, cost: x.cost + x.rate / 3600 } : x)
+    }));
+  }
+
+  copyInstall = () => {
+    try { navigator.clipboard.writeText('curl -fsSL bothub.dev/install | sh'); } catch (e) {}
+    this.setState({ copied: true });
+    setTimeout(() => this.setState({ copied: false }), 1400);
+  };
+
+  action = (id) => {
+    const s = this.state.sessions.find(x => x.id === id);
+    if (!s) return;
+    if (s.st === 'RUNNING') this.startCheckpoint(id);
+    else if (s.st === 'CHECKPOINTED' || s.st === 'PAUSED') this.startResume(id);
+  };
+
+  setSt(id, patch) {
+    this.setState(s => ({ sessions: s.sessions.map(x => x.id === id ? { ...x, ...patch } : x) }));
+  }
+
+  startCheckpoint(id) {
+    this.setSt(id, { st:'CHECKPOINTING', cp:0 });
+    const target = this.state.sessions.find(x => x.id === id).sizeGB;
+    if (this._timers[id]) clearInterval(this._timers[id]);
+    this._timers[id] = setInterval(() => {
+      const cur = this.state.sessions.find(x => x.id === id);
+      const next = cur.cp + target / 26;
+      if (next >= target) {
+        clearInterval(this._timers[id]);
+        this.setSt(id, { st:'CHECKPOINTED', cp:target, rate:0, temp:0, vramUsed:0, cpAge:0 });
+      } else {
+        this.setSt(id, { cp: next, temp: Math.max(8, cur.temp - 3) });
+      }
+    }, 95);
+  }
+
+  startResume(id) {
+    const cur = this.state.sessions.find(x => x.id === id);
+    const target = cur.sizeGB;
+    const rate = { 'H100 80GB':0.54, 'A100 40GB':0.39 }[cur.gpu] || 0.42;
+    this.setSt(id, { st:'RESUMING', cp:0 });
+    if (this._timers[id]) clearInterval(this._timers[id]);
+    this._timers[id] = setInterval(() => {
+      const c = this.state.sessions.find(x => x.id === id);
+      const next = c.cp + target / 16;
+      if (next >= target) {
+        clearInterval(this._timers[id]);
+        this.setSt(id, { st:'RUNNING', cp:0, rate, temp: cur.gpu==='H100 80GB'?71:64, vramUsed:target });
+      } else {
+        this.setSt(id, { cp: next, vramUsed: next, temp: Math.min(70, 20 + next) });
+      }
+    }, 95);
+  }
+
+  lerp(a, b, t) { return a + (b - a) * Math.min(1, Math.max(0, t)); }
+  fmtAge(min) { if (min >= 1440) return Math.round(min/1440)+'d ago'; if (min >= 60) return Math.floor(min/60)+'h '+(min%60)+'m ago'; return min+'m ago'; }
+
+  buildDemo() {
+    const C = this.C, { demoPhase: p, demoT: t, demoCost } = this.state;
+    const labels = { RUNNING:'RUNNING', CHECKPOINTING:'CHECKPOINTING', COLD:'CHECKPOINTED · COLD', RESUMING:'RESUMING' };
+    let temp, vramPct, vramLabel, rateLabel, rate0, status, stepLabel, stepLav, barColor;
+    if (p === 'RUNNING') {
+      temp = 70 + Math.round(Math.sin(t*9)*2); vramPct = 100; vramLabel = '50 / 50 GB';
+      rate0 = false; rateLabel = '$0.54/hr'; barColor = C.lav;
+      status = 'executing — writing tests for the payments module · step 412';
+      stepLabel = 'step 412'; stepLav = false;
+    } else if (p === 'CHECKPOINTING') {
+      temp = Math.round(this.lerp(70, 34, t)); const g = this.lerp(50, 0, t);
+      vramPct = (g/50)*100; vramLabel = (50 - g).toFixed(1) + ' GB → store';
+      rate0 = false; rateLabel = '$0.54/hr'; barColor = C.lav;
+      status = 'freezing VRAM + live memory · CRIU + cuda-checkpoint';
+      stepLabel = 'step 412 · held'; stepLav = true;
+    } else if (p === 'COLD') {
+      temp = 0; vramPct = 0; vramLabel = '0 GB · on disk';
+      rate0 = true; rateLabel = '$0.00/hr'; barColor = C.dim;
+      status = 'GPU released · billing stopped · checkpoint safe on object store';
+      stepLabel = 'step 412 · saved'; stepLav = true;
+    } else {
+      temp = Math.round(this.lerp(8, 70, t)); vramPct = t*100;
+      vramLabel = 'restoring ' + (t*50).toFixed(1) + ' GB';
+      rate0 = false; rateLabel = '$0.54/hr'; barColor = C.lav;
+      status = 'rehydrating process + VRAM onto a fresh H100 on Vast.ai';
+      stepLabel = 'step 412 · restored'; stepLav = true;
+    }
+    const nodes = this.order.map(ph => {
+      const active = ph === p;
+      return {
+        label: ph === 'COLD' ? 'CHECKPOINTED' : ph,
+        ring: active ? C.lav : '#2A2A30',
+        fill: active ? C.lav : 'transparent',
+        text: active ? C.lav : C.dim,
+        anim: active ? 'animation:bh-pulse 1.6s ease-in-out infinite;' : '',
+      };
+    });
+    return {
+      phaseLabel: labels[p],
+      phaseColor: (p === 'COLD') ? C.gray : C.lav,
+      liveDot: (p === 'COLD') ? C.dim : C.lav,
+      liveAnim: (p === 'COLD') ? '' : 'animation:bh-pulse 1.6s ease-in-out infinite;',
+      nodes,
+      barPct: Math.round(t * 100),
+      barColor,
+      status,
+      tempLabel: temp === 0 ? '— °C' : temp + ' °C',
+      tempColor: temp === 0 ? C.gray : (temp > 50 ? C.lav : C.text),
+      vramLabel, vramPct,
+      vramColor: vramPct > 0 ? '#FFFFFF' : C.gray,
+      rateLabel, rateColor: rate0 ? C.gray : C.lav,
+      costLabel: '$' + demoCost.toFixed(2),
+      stepLabel, stepColor: stepLav ? C.lav : '#FFFFFF',
+    };
+  }
+
+  buildRow(s) {
+    const C = this.C;
+    const v = { id:s.id, name:s.name, brain:s.brain, model:s.model, provider:s.provider, region:s.region };
+    const stateMap = {
+      RUNNING:      { label:'RUNNING',      color:C.lav,  bg:C.lavBg, border:C.lavBorder, dot:C.lav,  anim:'animation:bh-pulse 1.8s ease-in-out infinite;' },
+      CHECKPOINTING:{ label:'CHECKPOINTING',color:C.lav,  bg:C.lavBg, border:C.lavBorder, dot:C.lav,  anim:'animation:bh-pulse .9s ease-in-out infinite;' },
+      CHECKPOINTED: { label:'CHECKPOINTED', color:C.lav,  bg:C.lavBg, border:C.lavBorder, dot:C.lav,  anim:'' },
+      RESUMING:     { label:'RESUMING',     color:C.lav,  bg:C.lavBg, border:C.lavBorder, dot:C.lav,  anim:'animation:bh-pulse .9s ease-in-out infinite;' },
+      PAUSED:       { label:'PAUSED',       color:C.gray, bg:C.surf,  border:C.border,    dot:C.dim,  anim:'' },
+    };
+    const m = stateMap[s.st];
+    v.stateLabel = m.label; v.stateColor = m.color; v.stateBg = m.bg; v.stateBorder = m.border; v.dotColor = m.dot; v.dotAnim = m.anim;
+    const hot = s.st === 'RUNNING' || s.st === 'CHECKPOINTING';
+    v.gpuLabel = s.gpu;
+    v.gpuColor = hot ? C.lav : C.gray;
+    v.gpuSub = hot ? (s.temp + '°C · HOT') : (s.st === 'PAUSED' ? 'idle · held' : '— · COLD');
+    v.vramPct = (s.vramUsed / s.sizeGB) * 100;
+    v.vramColor = s.vramUsed > 0 ? (hot ? C.lav2 : '#3A3A42') : '#2A2A30';
+    if (s.st === 'CHECKPOINTED') v.vramLabel = s.sizeGB + ' GB on disk';
+    else if (s.st === 'PAUSED') v.vramLabel = 'released';
+    else v.vramLabel = s.vramUsed.toFixed(0) + ' / ' + s.sizeGB + ' GB';
+    v.rateLabel = '$' + s.rate.toFixed(2) + '/hr';
+    v.costLabel = '$' + s.cost.toFixed(s.cost < 100 ? 4 : 2);
+    if (s.st === 'RUNNING') { v.costSub = 'accruing'; v.costSubColor = C.gray; }
+    else if (s.st === 'CHECKPOINTED') { v.costSub = 'frozen'; v.costSubColor = C.lav; }
+    else if (s.st === 'CHECKPOINTING') { v.costSub = 'stopping…'; v.costSubColor = C.gray; }
+    else if (s.st === 'RESUMING') { v.costSub = 'resuming'; v.costSubColor = C.gray; }
+    else { v.costSub = 'idle'; v.costSubColor = C.dim; }
+    v.showBar = s.st === 'CHECKPOINTING' || s.st === 'RESUMING';
+    if (v.showBar) {
+      v.barPct = Math.round((s.cp / s.sizeGB) * 100);
+      if (s.st === 'CHECKPOINTING') { v.barLabel = 'freezing VRAM'; v.barDetail = s.cp.toFixed(1) + ' / ' + s.sizeGB + ' GB → store'; }
+      else { v.barLabel = 'restoring'; v.barDetail = s.cp.toFixed(1) + ' / ' + s.sizeGB + ' GB'; }
+    } else { v.barPct = 0; v.barLabel = ''; v.barDetail = ''; }
+    const base = 'font-family:inherit;font-size:11.5px;font-weight:700;padding:6px 12px;border:1px solid;cursor:pointer;letter-spacing:0.2px;';
+    if (s.st === 'RUNNING') {
+      v.btnLabel = 'pause'; v.btnDisabled = false;
+      v.btnStyle = base + 'background:transparent;border-color:' + C.lavBorder + ';color:' + C.lav + ';';
+      v.btnHover = 'background:' + C.lav + ';color:#0D0D0F;border-color:' + C.lav + ';';
+    } else if (s.st === 'CHECKPOINTED' || s.st === 'PAUSED') {
+      v.btnLabel = 'resume'; v.btnDisabled = false;
+      v.btnStyle = base + 'background:' + C.lav + ';border-color:' + C.lav + ';color:#0D0D0F;';
+      v.btnHover = 'background:' + C.lav2 + ';border-color:' + C.lav2 + ';';
+    } else {
+      v.btnLabel = s.st === 'CHECKPOINTING' ? 'saving…' : 'resuming…'; v.btnDisabled = true;
+      v.btnStyle = base + 'background:transparent;border-color:#2A2A30;color:#56565E;cursor:default;';
+      v.btnHover = '';
+    }
+    v.onAction = () => this.action(s.id);
+    return v;
+  }
+
+  buildCheckpoints() {
+    const C = this.C;
+    const ghost = 'font-family:inherit;font-size:11.5px;font-weight:700;padding:6px 12px;border:1px solid #2A2A30;background:transparent;color:#E6E6E6;cursor:pointer;';
+    const live = this.state.sessions.filter(s => s.st === 'CHECKPOINTED').map(s => ({
+      id: s.id, sub: s.model + ' · ' + s.sizeGB + ' GB', origin: s.gpu + ' · ' + s.provider,
+      age: this.fmtAge(s.cpAge), ageColor: C.lav, markColor: C.lav, disabled: false,
+      btnLabel: 'resume', btnStyle: 'font-family:inherit;font-size:11.5px;font-weight:700;padding:6px 12px;border:1px solid ' + C.lav + ';background:' + C.lav + ';color:#0D0D0F;cursor:pointer;',
+      btnHover: 'background:' + C.lav2 + ';border-color:' + C.lav2 + ';', onAction: () => this.action(s.id),
+    }));
+    const archived = [
+      { id:'sess_8f3a@step340', sub:'llama-3.3-70b · 50 GB', origin:'H100 · Vast.ai', age:'3d ago' },
+      { id:'sess_a55f@step1024', sub:'llama-3.3-70b · 64 GB', origin:'H100 · Hyperbolic', age:'6d ago' },
+      { id:'sess_2c91@step88', sub:'qwen2.5-32b · 22 GB', origin:'A100 · RunPod', age:'9d ago' },
+    ].map(a => ({ ...a, ageColor:C.gray, markColor:'#56565E', disabled:false, btnLabel:'restore', btnStyle:ghost, btnHover:'border-color:#8B7FD9;color:#B5A8FF;', onAction:()=>{} }));
+    return live.concat(archived);
+  }
+
+  buildGpus() {
+    const C = this.C;
+    const fromSessions = this.state.sessions.map(s => {
+      const hot = s.st === 'RUNNING' || s.st === 'CHECKPOINTING';
+      const status = hot ? 'HOT' : (s.st === 'PAUSED' ? 'IDLE' : 'COLD');
+      return {
+        gpu: s.gpu, gpuColor: hot ? C.lav : C.gray, host: s.provider + ' · ' + s.region,
+        status, statusColor: hot ? C.lav : C.gray,
+        temp: hot ? s.temp + ' °C' : (s.st === 'PAUSED' ? s.temp + ' °C' : '— °C'),
+        tempColor: hot ? C.lav : C.gray,
+        rate: '$' + (hot ? (s.gpu === 'H100 80GB' ? 0.54 : 0.39) : 0).toFixed(2),
+        session: s.id,
+      };
+    });
+    fromSessions.push({ gpu:'H100 80GB', gpuColor:C.gray, host:'RunPod · us-east-1', status:'AVAILABLE', statusColor:C.gray, temp:'— °C', tempColor:C.gray, rate:'$0.50', session:'—' });
+    return fromSessions;
+  }
+
+  renderVals() {
+    const C = this.C, ss = this.state.sessions, tab = this.state.tab;
+    const running = ss.filter(x => x.st === 'RUNNING').length;
+    const hot = ss.filter(x => x.st === 'RUNNING' || x.st === 'CHECKPOINTING').length;
+    const checkpoints = this.buildCheckpoints();
+    const gpus = this.buildGpus();
+    const providers = [
+      { name:'Vast.ai', regions:'us-east · eu-west', rate:'$0.50/hr', active:'2', status:'CONNECTED' },
+      { name:'RunPod', regions:'eu-west · us-east', rate:'$0.39/hr', active:'1', status:'CONNECTED' },
+      { name:'Hyperbolic', regions:'us-west · ap-south', rate:'$0.61/hr', active:'2', status:'CONNECTED' },
+    ];
+    const counts = { sessions: ss.length, checkpoints: checkpoints.length, gpus: gpus.length, providers: providers.length };
+    const navDefs = [
+      { key:'sessions', label:'Sessions', icon:'▣' },
+      { key:'checkpoints', label:'Checkpoints', icon:'◆' },
+      { key:'gpus', label:'GPUs', icon:'▤' },
+      { key:'providers', label:'Providers', icon:'◇' },
+    ];
+    const nav = navDefs.map(d => {
+      const active = tab === d.key;
+      const itemBase = 'width:100%;display:flex;align-items:center;justify-content:space-between;font-family:inherit;font-size:13px;padding:9px 11px;border:0;border-left:2px solid;cursor:pointer;text-align:left;';
+      return {
+        label: d.label, icon: d.icon, count: counts[d.key],
+        onClick: () => this.setState({ tab: d.key }),
+        iconColor: active ? C.lav : C.gray,
+        countColor: active ? C.lav : '#56565E',
+        style: itemBase + (active
+          ? 'background:rgba(181,168,255,0.07);border-left-color:#B5A8FF;color:#FFFFFF;font-weight:600;'
+          : 'background:transparent;border-left-color:transparent;color:#86868E;font-weight:400;'),
+        hover: active ? '' : 'background:#101012;color:#E6E6E6;',
+      };
+    });
+    const titles = {
+      sessions: { title:'Sessions', subtitle: running + ' running · ' + (ss.length - running) + ' idle' },
+      checkpoints: { title:'Checkpoints', subtitle: checkpoints.length + ' saved · ' + (hot ? '' : '') + '1.2 TB' },
+      gpus: { title:'GPUs', subtitle: hot + ' hot · ' + (gpus.length - hot) + ' cold' },
+      providers: { title:'Providers', subtitle: '3 connected' },
+    };
+    const view = {
+      title: titles[tab].title, subtitle: titles[tab].subtitle,
+      isSessions: tab === 'sessions', isCheckpoints: tab === 'checkpoints',
+      isGpus: tab === 'gpus', isProviders: tab === 'providers',
+    };
+    const tierBtn = (variant) => {
+      const base = 'width:100%;font-family:inherit;font-size:13px;font-weight:700;padding:10px 0;cursor:pointer;letter-spacing:0.2px;';
+      if (variant === 'primary') return { style: base + 'background:#B5A8FF;border:1px solid #B5A8FF;color:#0D0D0F;', hover: 'background:#8B7FD9;border-color:#8B7FD9;' };
+      return { style: base + 'background:transparent;border:1px solid #2A2A30;color:#E6E6E6;', hover: 'border-color:#8B7FD9;color:#B5A8FF;' };
+    };
+    const feat = (text, on) => ({ text, mark: on ? '◆' : '·', markColor: on ? C.lav : C.dim });
+    const ghost = tierBtn('ghost'), prim = tierBtn('primary');
+    return {
+      copyLabel: this.state.copied ? 'copied ✓' : 'copy',
+      copyColor: this.state.copied ? C.lav : C.gray,
+      copyInstall: this.copyInstall,
+      demo: this.buildDemo(),
+      nav, view, checkpoints, gpus, providers,
+      rows: ss.map(s => this.buildRow(s)),
+      stat: { cpu: '12%', mem: '6.2 / 32 GB', hot: hot, cold: gpus.length - hot },
+      problems: [
+        { n:'01', label:'No state', line:'every session is a cold start.' },
+        { n:'02', label:'Infra lock-in', line:'managed cloud at ~$4/hr. Their box or nothing.' },
+        { n:'03', label:'Brain lock-in', line:'a proprietary planner you can’t swap.' },
+      ],
+      solutions: [
+        { n:'01', numColor:C.lav, labelColor:C.lav, label:'Stateful', line:'freeze VRAM + memory. Resume the same step, anywhere.' },
+        { n:'02', numColor:C.dim, labelColor:'#FFFFFF', label:'Cheap', line:'spot metal at ~$0.50/hr, gVisor-isolated.' },
+        { n:'03', numColor:C.dim, labelColor:'#FFFFFF', label:'Open', line:'Claude, Llama, or your script. The sandbox, not the brain.' },
+      ],
+      tiers: [
+        { name:'OPEN SOURCE', nameColor:C.gray, recommended:false, border:'#2A2A30', cardBg:'#0A0A0C',
+          price:'$0', unit:'/ forever', cta:'clone the repo', btnStyle: ghost.style, btnHover: ghost.hover,
+          features:[ feat('Full runtime · CRIU + cuda-checkpoint', true), feat('gVisor isolation', false), feat('MCP · any brain', false), feat('Community Discord', false) ] },
+        { name:'PRO', nameColor:C.lav, recommended:true, border:'#B5A8FF', cardBg:'rgba(181,168,255,0.04)',
+          price:'$40', unit:'/ seat · mo', cta:'start free trial', btnStyle: prim.style, btnHover: prim.hover,
+          features:[ feat('Everything in OSS', false), feat('Managed checkpoint store', true), feat('Spot orchestration', true), feat('Priority warm-resume', true) ] },
+        { name:'ENTERPRISE', nameColor:C.gray, recommended:false, border:'#2A2A30', cardBg:'#0A0A0C',
+          price:'Let’s talk', unit:'', cta:'contact sales', btnStyle: ghost.style, btnHover: ghost.hover,
+          features:[ feat('SSO · SAML', false), feat('Private compute pools', false), feat('Audit logs + SLA', false), feat('Dedicated support', false) ] },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>
