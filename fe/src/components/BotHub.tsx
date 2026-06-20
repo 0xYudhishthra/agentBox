@@ -172,7 +172,7 @@ export default function BotHub() {
           </div>
           <div style={st("border-left:1px solid #2A2A30;padding-left:40px;")}>
             <h2 style={st("font-size:clamp(26px,3.4vw,40px);font-weight:800;letter-spacing:-1.4px;margin:0 0 36px;color:#FFFFFF;")}>Free to run.</h2>
-            <div style={st("display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;align-items:start;")}>
+            <div style={st("display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;align-items:stretch;")}>
               {v.tiers.map((t, i) => (
                 <div key={i} style={st("border:1px solid " + t.border + ";background:" + t.cardBg + ";padding:26px 24px;position:relative;")}>
                   {t.recommended && (
