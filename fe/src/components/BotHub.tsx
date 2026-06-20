@@ -4,7 +4,6 @@ import Link from "next/link";
 
 import Dashboard from "@/components/Dashboard";
 import Hover from "@/components/Hover";
-import ImageSlot from "@/components/ImageSlot";
 import { st } from "@/lib/style";
 import { useBotHub } from "@/lib/useBotHub";
 
@@ -211,7 +210,6 @@ export default function BotHub() {
             <div style={st("display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;")}>
               <div style={st("border:1px solid #2A2A30;background:#0A0A0C;padding:22px;")}>
                 <div style={st("display:flex;align-items:center;gap:14px;margin-bottom:16px;")}>
-                  <ImageSlot style={st("width:54px;height:54px;display:block;flex:none;border:1px solid #2A2A30;")} placeholder="photo" />
                   <div>
                     <div style={st("font-size:14px;font-weight:700;color:#FFFFFF;")}>Yudhishthra Sugumaran</div>
                     <div style={st("font-size:11.5px;color:#B5A8FF;margin-top:3px;")}>CTO (Chief Technology Officer)</div>
@@ -221,7 +219,6 @@ export default function BotHub() {
               </div>
               <div style={st("border:1px solid #2A2A30;background:#0A0A0C;padding:22px;")}>
                 <div style={st("display:flex;align-items:center;gap:14px;margin-bottom:16px;")}>
-                  <ImageSlot style={st("width:54px;height:54px;display:block;flex:none;border:1px solid #2A2A30;")} placeholder="photo" />
                   <div>
                     <div style={st("font-size:14px;font-weight:700;color:#FFFFFF;")}>Pedro Rosalba</div>
                     <div style={st("font-size:11.5px;color:#86868E;margin-top:3px;")}>CEO (Chief Executive Officer)</div>
@@ -231,7 +228,6 @@ export default function BotHub() {
               </div>
               <div style={st("border:1px solid #2A2A30;background:#0A0A0C;padding:22px;")}>
                 <div style={st("display:flex;align-items:center;gap:14px;margin-bottom:16px;")}>
-                  <ImageSlot style={st("width:54px;height:54px;display:block;flex:none;border:1px solid #2A2A30;")} placeholder="photo" />
                   <div>
                     <div style={st("font-size:14px;font-weight:700;color:#FFFFFF;")}>Tomas Mazzitello</div>
                     <div style={st("font-size:11.5px;color:#86868E;margin-top:3px;")}>CTO (Chief Taste Officer)</div>
