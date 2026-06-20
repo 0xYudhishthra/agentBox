@@ -1,3 +1,17 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 
-app = FastAPI(title="agentBox")
+from .db import init_db
+from .routers import connections, workspaces
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    init_db()
+    yield
+
+
+app = FastAPI(title="agentBox", version="0.1.0", lifespan=lifespan)
+app.include_router(connections.router, prefix="/api/v1")
+app.include_router(workspaces.router, prefix="/api/v1")
