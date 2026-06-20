@@ -36,6 +36,7 @@ class ConnectionRead(BaseModel):
     ip_address: str
     user: str
     port: int
+    ssh_key_path: str | None
     gpu_type: str | None
     driver_version: str | None
     cuda_version: str | None

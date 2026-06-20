@@ -15,5 +15,7 @@ def test_requires_exactly_one_auth():
 
 def test_read_model_excludes_secrets():
     fields = ConnectionRead.model_fields.keys()
+    # raw password is never exposed; ssh_key_path (a path, not key material) is
+    # returned per the API spec's GET /connections payload
     assert "password" not in fields
-    assert "ssh_key_path" not in fields
+    assert "ssh_key_path" in fields

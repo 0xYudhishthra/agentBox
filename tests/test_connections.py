@@ -12,7 +12,8 @@ def test_create_list_delete_connection(client):
     assert r.status_code == 201
     body = r.json()
     cid = body["id"]
-    assert "password" not in body and "ssh_key_path" not in body
+    assert "password" not in body  # raw secret never exposed
+    assert body["ssh_key_path"] == "/root/.ssh/id"  # path returned per spec
     assert body["status"] == "idle"
 
     r = client.get("/api/v1/connections")
